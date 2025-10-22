@@ -7,15 +7,22 @@ import { RESOLUTIONS } from './types';
 const app = express();
 const port = process.env.PORT || 3000;
 const generator = new WallpaperGenerator();
+const apiRouter = express.Router();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '../web')));
-app.use('/output', express.static(path.join(__dirname, '../output')));
+apiRouter.get('/', (_req: Request, res: Response) => {
+  res.json({
+    success: true,
+    endpoints: {
+      clis: '/api/clis',
+      resolutions: '/api/resolutions',
+      generate: '/api/generate',
+      wallpapers: '/api/wallpapers',
+      preview: '/api/preview/:cli/:resolution'
+    }
+  });
+});
 
-// API Routes
-app.get('/api/clis', (req: Request, res: Response) => {
+apiRouter.get('/clis', (_req: Request, res: Response) => {
   try {
     const clis = generator.listAvailableCLIs();
     res.json({ success: true, data: clis });
@@ -24,7 +31,7 @@ app.get('/api/clis', (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/resolutions', (req: Request, res: Response) => {
+apiRouter.get('/resolutions', (_req: Request, res: Response) => {
   try {
     res.json({ success: true, data: RESOLUTIONS });
   } catch (error) {
@@ -32,40 +39,37 @@ app.get('/api/resolutions', (req: Request, res: Response) => {
   }
 });
 
-app.post('/api/generate', async (req: Request, res: Response) => {
+apiRouter.post('/generate', async (req: Request, res: Response) => {
   try {
     const { cli, resolution } = req.body;
-    
+
     if (!cli || !resolution) {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Missing required fields: cli and resolution' 
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields: cli and resolution'
       });
     }
 
-    // Validate CLI exists
     const availableCLIs = generator.listAvailableCLIs();
     if (!availableCLIs.includes(cli)) {
-      return res.status(400).json({ 
-        success: false, 
-        error: `Invalid CLI: ${cli}` 
+      return res.status(400).json({
+        success: false,
+        error: `Invalid CLI: ${cli}`
       });
     }
 
-    // Validate resolution
     const validResolution = RESOLUTIONS.find(r => r.name === resolution);
     if (!validResolution) {
-      return res.status(400).json({ 
-        success: false, 
-        error: `Invalid resolution: ${resolution}` 
+      return res.status(400).json({
+        success: false,
+        error: `Invalid resolution: ${resolution}`
       });
     }
 
-    // Generate wallpaper
     await generator.generateForCLI(cli);
-    
-    res.json({ 
-      success: true, 
+
+    res.json({
+      success: true,
       message: `Generated ${cli} wallpaper in ${resolution}`,
       imagePath: `/output/${cli}/${cli}-${resolution}.png`
     });
@@ -74,22 +78,23 @@ app.post('/api/generate', async (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/wallpapers', (req: Request, res: Response) => {
+apiRouter.get('/wallpapers', (_req: Request, res: Response) => {
   try {
     const fs = require('fs');
     const outputDir = path.join(__dirname, '../output');
-    
+
     if (!fs.existsSync(outputDir)) {
       return res.json({ success: true, data: [] });
     }
 
-    const wallpapers = [];
+    const wallpapers = [] as Array<{ cli: string; filename: string; path: string; resolution: string }>;
     const cliDirs = fs.readdirSync(outputDir);
-    
+
     for (const cliDir of cliDirs) {
       const cliPath = path.join(outputDir, cliDir);
       if (fs.statSync(cliPath).isDirectory()) {
-        const files = fs.readdirSync(cliPath)
+        const files = fs
+          .readdirSync(cliPath)
           .filter((file: string) => file.endsWith('.png'))
           .map((file: string) => ({
             cli: cliDir,
@@ -107,29 +112,39 @@ app.get('/api/wallpapers', (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/preview/:cli/:resolution', async (req: Request, res: Response) => {
+apiRouter.get('/preview/:cli/:resolution', async (req: Request, res: Response) => {
   try {
     const { cli, resolution } = req.params;
-    
-    // Check if wallpaper exists
-    const imagePath = path.join(__dirname, '../output', cli, `${cli}-${resolution}.png`);
     const fs = require('fs');
-    
+
+    const imagePath = path.join(__dirname, '../output', cli, `${cli}-${resolution}.png`);
+
     if (!fs.existsSync(imagePath)) {
-      return res.status(404).json({ 
-        success: false, 
-        error: 'Wallpaper not found. Generate it first.' 
+      return res.status(404).json({
+        success: false,
+        error: 'Wallpaper not found. Generate it first.'
       });
     }
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       imagePath: `/output/${cli}/${cli}-${resolution}.png`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: (error as Error).message });
   }
 });
+
+apiRouter.use((req: Request, res: Response) => {
+  res.status(404).json({ success: false, error: `Unknown API route: ${req.originalUrl}` });
+});
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use('/api', apiRouter);
+app.use('/output', express.static(path.join(__dirname, '../output')));
+app.use(express.static(path.join(__dirname, '../web')));
 
 // Serve web interface
 app.get('/', (req: Request, res: Response) => {
