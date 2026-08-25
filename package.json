@@ -8,6 +8,7 @@
     "dev": "ts-node src/index.ts",
     "generate": "npm run build && node dist/index.js",
     "clean": "rm -rf dist output",
+    "sync:web": "mkdir -p web/output && cp -r output/. web/output/",
     "server": "npm run build && node dist/server.js",
     "dev:server": "ts-node src/server.ts",
     "start": "npm run server"
