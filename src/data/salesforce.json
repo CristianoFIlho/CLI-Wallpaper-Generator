@@ -1,76 +1,201 @@
 {
-  "title": "Salesforce",
+  "title": "Salesforce CLI (sf) — Referência de Comandos",
+  "subtitle": "Guia rápido para desenvolvimento Salesforce · v2.148.3+ | developer.salesforce.com/docs",
+  "theme": "card",
+  "footerTips": [
+    "Use --help após qualquer comando",
+    "--json para output programático",
+    "--target-org (-o) para especificar org",
+    "sf doctor para troubleshooting",
+    "sf plugins install para extensões"
+  ],
   "sections": [
     {
-      "title": "Org Management",
+      "title": "Projeto",
       "commands": [
-        { "name": "sf org login web", "description": "Connect to org via browser" },
-        { "name": "sf org list", "description": "Display currently active orgs" },
-        { "name": "sf org display", "description": "Show org details" },
-        { "name": "sf org logout", "description": "Log out from org" },
-        { "name": "sf org list metadata", "description": "List metadata in org" },
-        { "name": "sf org list metadata-types", "description": "List available metadata types" }
+        { "name": "sf project generate", "description": "Cria novo projeto Salesforce DX" },
+        { "name": "sf project generate manifest", "description": "Gera package.xml a partir de metadados" },
+        { "name": "sf project convert source", "description": "Converte source format para MDAPI" },
+        { "name": "sf project convert mdapi", "description": "Converte MDAPI para source format" },
+        { "name": "sf project retrieve start", "description": "Busca metadados do org" },
+        { "name": "sf project retrieve preview", "description": "Preview do que será buscado" },
+        { "name": "sf project delete source", "description": "Remove metadados locais e do org" }
       ]
     },
     {
-      "title": "Project Commands",
+      "title": "Deploy & Retrieve",
       "commands": [
-        { "name": "sf project generate manifest", "description": "Create package.xml" },
-        { "name": "sf project deploy start", "description": "Deploy metadata to org" },
-        { "name": "sf project deploy validate", "description": "Validate deployment" },
-        { "name": "sf project deploy preview", "description": "Preview deployment changes" },
-        { "name": "sf project deploy quick", "description": "Quick deploy validated changes" },
-        { "name": "sf project deploy report", "description": "Check deploy status" },
-        { "name": "sf project deploy cancel", "description": "Cancel deployment" },
-        { "name": "sf project retrieve start", "description": "Retrieve metadata from org" }
+        { "name": "sf project deploy start", "description": "Deploy de metadados para o org" },
+        { "name": "sf project deploy validate", "description": "Valida sem efetivar o deploy" },
+        { "name": "sf project deploy quick", "description": "Deploy rápido de validação aprovada" },
+        { "name": "sf project deploy report", "description": "Status de deploy assíncrono" },
+        { "name": "sf project deploy preview", "description": "Preview do que será deployado" },
+        { "name": "sf project deploy resume", "description": "Retoma deploy em andamento" },
+        { "name": "sf project deploy cancel", "description": "Cancela deploy em andamento" }
       ]
     },
     {
-      "title": "Data Operations",
+      "title": "Org",
       "commands": [
-        { "name": "sf data query", "description": "Execute SOQL query" },
-        { "name": "sf data import tree", "description": "Import data from JSON" },
-        { "name": "sf data export tree", "description": "Export data to JSON" },
-        { "name": "sf data delete record", "description": "Delete records" },
-        { "name": "sf data upsert bulk", "description": "Bulk upsert records" }
+        { "name": "sf org login web", "description": "Autentica via navegador" },
+        { "name": "sf org login jwt", "description": "Login JWT para CI/server-to-server" },
+        { "name": "sf org display", "description": "Mostra detalhes do org autenticado" },
+        { "name": "sf org list", "description": "Lista orgs autenticados" },
+        { "name": "sf org open", "description": "Abre o org no navegador" },
+        { "name": "sf org create scratch", "description": "Cria scratch org" },
+        { "name": "sf org create sandbox", "description": "Cria ou clona sandbox" },
+        { "name": "sf org delete scratch", "description": "Remove scratch org" },
+        { "name": "sf org list limits", "description": "Limites do org (API, storage)" }
       ]
     },
     {
-      "title": "Apex Commands",
+      "title": "Config & Alias",
       "commands": [
-        { "name": "sf apex run", "description": "Execute anonymous Apex" },
-        { "name": "sf apex test run", "description": "Run Apex tests" },
-        { "name": "sf apex get test", "description": "Get test results" },
-        { "name": "sf apex get log", "description": "Get debug logs" },
-        { "name": "sf apex list log", "description": "List debug logs" }
+        { "name": "sf config set", "description": "Define variáveis de configuração" },
+        { "name": "sf config list", "description": "Lista configurações ativas" },
+        { "name": "sf alias set", "description": "Define alias para um org" },
+        { "name": "sf alias list", "description": "Lista todos os aliases" },
+        { "name": "sf org logout", "description": "Encerra sessão de um org" }
       ]
     },
     {
-      "title": "Org Creation",
+      "title": "Apex",
       "commands": [
-        { "name": "sf org create scratch", "description": "Create scratch org" },
-        { "name": "sf org create sandbox", "description": "Create sandbox org" },
-        { "name": "sf org delete scratch", "description": "Delete scratch org" },
-        { "name": "sf org open", "description": "Open org in browser" }
+        { "name": "sf apex run", "description": "Executa Apex anônimo" },
+        { "name": "sf apex run test", "description": "Executa testes Apex no org" },
+        { "name": "sf apex get test", "description": "Resultado de execução assíncrona" },
+        { "name": "sf apex tail log", "description": "Monitora logs em tempo real" },
+        { "name": "sf apex get log", "description": "Busca log de debug específico" },
+        { "name": "sf apex list log", "description": "Lista logs disponíveis" },
+        { "name": "sf apex generate class", "description": "Gera nova classe Apex" },
+        { "name": "sf apex generate trigger", "description": "Gera novo trigger Apex" }
       ]
     },
     {
-      "title": "Package Commands",
+      "title": "Logic & Flow",
       "commands": [
-        { "name": "sf package create", "description": "Create package" },
-        { "name": "sf package install", "description": "Install package" },
-        { "name": "sf package uninstall", "description": "Uninstall package" },
-        { "name": "sf package list", "description": "List installed packages" }
+        { "name": "sf logic run test", "description": "Testa Apex e Flows juntos (beta)" },
+        { "name": "sf logic get test", "description": "Resultado de execução (beta)" },
+        { "name": "sf flow run test", "description": "Executa testes de Flow no org" },
+        { "name": "sf flow get test", "description": "Resultado de teste de Flow" },
+        { "name": "sf flow get log", "description": "Log de execução de Flow (preview)" }
       ]
     },
     {
-      "title": "Utility Commands",
+      "title": "Data",
       "commands": [
-        { "name": "sf config list", "description": "List configuration" },
-        { "name": "sf config set", "description": "Set configuration" },
-        { "name": "sf plugins list", "description": "List installed plugins" },
-        { "name": "sf plugins install", "description": "Install plugin" },
-        { "name": "sf plugins uninstall", "description": "Uninstall plugin" }
+        { "name": "sf data query", "description": "Executa consulta SOQL" },
+        { "name": "sf data search", "description": "Executa busca SOSL" },
+        { "name": "sf data get record", "description": "Busca registro específico" },
+        { "name": "sf data create record", "description": "Cria novo registro" },
+        { "name": "sf data update record", "description": "Atualiza registro existente" },
+        { "name": "sf data delete record", "description": "Deleta registro" },
+        { "name": "sf data import bulk", "description": "Importa CSV via Bulk API 2.0" },
+        { "name": "sf data export bulk", "description": "Exporta SOQL via Bulk API 2.0" },
+        { "name": "sf data upsert bulk", "description": "Upsert em massa a partir de CSV" }
+      ]
+    },
+    {
+      "title": "Schema & SObject",
+      "commands": [
+        { "name": "sf schema generate sobject", "description": "Gera novo objeto customizado" },
+        { "name": "sf schema generate field", "description": "Gera novo campo customizado" },
+        { "name": "sf schema generate tab", "description": "Gera nova tab customizada" },
+        { "name": "sf schema generate platformevent", "description": "Gera novo Platform Event" },
+        { "name": "sf sobject describe", "description": "Describe de um SObject" },
+        { "name": "sf sobject list", "description": "Lista SObjects do org" }
+      ]
+    },
+    {
+      "title": "Lightning",
+      "commands": [
+        { "name": "sf lightning generate component", "description": "Gera componente LWC ou Aura" },
+        { "name": "sf lightning generate app", "description": "Gera Lightning App" },
+        { "name": "sf lightning generate interface", "description": "Gera Lightning Interface" },
+        { "name": "sf lightning generate event", "description": "Gera Lightning Event" },
+        { "name": "sf lightning dev app", "description": "Preview local de app Lightning" },
+        { "name": "sf lightning dev component", "description": "Preview de LWC isolado" },
+        { "name": "sf lightning dev site", "description": "Preview local de Experience site" }
+      ]
+    },
+    {
+      "title": "CMDT",
+      "commands": [
+        { "name": "sf cmdt generate object", "description": "Cria novo Custom Metadata Type" },
+        { "name": "sf cmdt generate field", "description": "Cria campo em um CMDT" },
+        { "name": "sf cmdt generate record", "description": "Cria registro de CMDT" },
+        { "name": "sf cmdt generate records", "description": "Cria registros a partir de CSV" },
+        { "name": "sf cmdt generate fromorg", "description": "Gera CMDT e registros do org" }
+      ]
+    },
+    {
+      "title": "Package",
+      "commands": [
+        { "name": "sf package create", "description": "Cria novo pacote 2GP" },
+        { "name": "sf package version create", "description": "Cria nova versão do pacote" },
+        { "name": "sf package version promote", "description": "Promove versão para released" },
+        { "name": "sf package install", "description": "Instala pacote no org" },
+        { "name": "sf package uninstall", "description": "Desinstala pacote do org" },
+        { "name": "sf package installed list", "description": "Lista pacotes instalados" },
+        { "name": "sf package list", "description": "Lista pacotes do Dev Hub" }
+      ]
+    },
+    {
+      "title": "Agent (Agentforce)",
+      "commands": [
+        { "name": "sf agent create", "description": "Cria agente a partir de spec local" },
+        { "name": "sf agent generate agent-spec", "description": "Gera YAML de spec do agente" },
+        { "name": "sf agent generate test-spec", "description": "Gera YAML de casos de teste" },
+        { "name": "sf agent preview", "description": "Testa o agente interativamente" },
+        { "name": "sf agent activate", "description": "Ativa o agente no org" },
+        { "name": "sf agent deactivate", "description": "Desativa o agente no org" },
+        { "name": "sf agent test run", "description": "Executa suíte de testes do agente" },
+        { "name": "sf agent test results", "description": "Resultados de execução de teste" },
+        { "name": "sf agent mcp list", "description": "Lista servidores MCP (preview)" }
+      ]
+    },
+    {
+      "title": "Code Analyzer",
+      "commands": [
+        { "name": "sf code-analyzer run", "description": "Executa análise estática do código" },
+        { "name": "sf code-analyzer rules", "description": "Lista regras por engine" },
+        { "name": "sf code-analyzer config", "description": "Mostra configuração atual" },
+        { "name": "sf code-analyzer ast-dump", "description": "Dump da AST de um arquivo" }
+      ]
+    },
+    {
+      "title": "DevOps Center",
+      "commands": [
+        { "name": "sf devops work-item create", "description": "Cria work item em um projeto" },
+        { "name": "sf devops work-item list", "description": "Lista work items do projeto" },
+        { "name": "sf devops promote", "description": "Promove work items entre stages" },
+        { "name": "sf devops pipeline list", "description": "Lista pipelines e seus stages" },
+        { "name": "sf devops project create", "description": "Cria projeto no DevOps Center" },
+        { "name": "sf devops review create", "description": "Abre pull request do work item" }
+      ]
+    },
+    {
+      "title": "Templates & Sites",
+      "commands": [
+        { "name": "sf community create", "description": "Cria site Experience Cloud" },
+        { "name": "sf community publish", "description": "Publica site Experience Builder" },
+        { "name": "sf community list template", "description": "Lista templates disponíveis" },
+        { "name": "sf template generate digital-experience site", "description": "Gera site LWR (preview)" },
+        { "name": "sf template generate flexipage", "description": "Gera FlexiPage (beta)" },
+        { "name": "sf visualforce generate page", "description": "Gera Visualforce Page" }
+      ]
+    },
+    {
+      "title": "Dev, Doctor & API",
+      "commands": [
+        { "name": "sf api request rest", "description": "Requisição REST autenticada" },
+        { "name": "sf api request graphql", "description": "Requisição GraphQL autenticada" },
+        { "name": "sf doctor", "description": "Diagnóstico do ambiente e do CLI" },
+        { "name": "sf plugins", "description": "Lista plugins instalados" },
+        { "name": "sf plugins install", "description": "Instala plugin adicional" },
+        { "name": "sf dev generate plugin", "description": "Gera novo plugin do sf" },
+        { "name": "sf dev generate command", "description": "Gera novo comando do sf" },
+        { "name": "sf dev convert script", "description": "Converte script sfdx para sf" }
       ]
     }
   ]

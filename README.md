@@ -21,7 +21,7 @@ A TypeScript-based tool that generates elegant wallpapers with CLI cheat sheets 
 ## ✨ Features
 
 - 🎨 **Multiple CLI Tools**: Support for Git, Docker, Kubernetes, npm, and Salesforce CLI
-- 📱 **Multiple Resolutions**: Generate wallpapers in 1920x1080, 2560x1440, and 3840x2160
+- 📱 **Multiple Resolutions**: Generate wallpapers in 1920x1080, 2560x1440, 3440x1440, and 3840x2160
 - 🚀 **Easy to Use**: Simple command-line interface and web interface
 - 🎯 **Extensible**: Easy to add new CLI tools
 - 💻 **TypeScript**: Fully typed and maintainable code
@@ -30,6 +30,11 @@ A TypeScript-based tool that generates elegant wallpapers with CLI cheat sheets 
 - 🎭 **Playwright**: Modern browser automation for better screenshots
 
 ## 🖼️ Gallery Examples
+
+### Salesforce CLI (`sf`) Wallpaper
+<div align="center">
+<img src="output/salesforce/salesforce-1920x1080.png" alt="Salesforce CLI Commands Wallpaper" width="600" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+</div>
 
 ### Git Commands Wallpaper
 <div align="center">
@@ -118,7 +123,7 @@ npm run generate --help
 | **Docker** | Container management | run, build, images, compose, etc. |
 | **Kubernetes** | Container orchestration | kubectl commands |
 | **npm** | Package management | install, run, publish, etc. |
-| **Salesforce** | SF CLI commands | org management, deployment, etc. |
+| **Salesforce** | `sf` CLI reference (card theme) | org, deploy, apex, data, agent, code-analyzer, devops, etc. |
 
 ## 📁 Output Structure
 
@@ -129,18 +134,22 @@ output/
 ├── git/
 │   ├── git-1920x1080.png
 │   ├── git-2560x1440.png
+│   ├── git-3440x1440.png
 │   └── git-3840x2160.png
 ├── docker/
 │   ├── docker-1920x1080.png
 │   ├── docker-2560x1440.png
+│   ├── docker-3440x1440.png
 │   └── docker-3840x2160.png
 ├── kubernetes/
 │   ├── kubernetes-1920x1080.png
 │   ├── kubernetes-2560x1440.png
+│   ├── kubernetes-3440x1440.png
 │   └── kubernetes-3840x2160.png
 └── npm/
     ├── npm-1920x1080.png
     ├── npm-2560x1440.png
+    ├── npm-3440x1440.png
     └── npm-3840x2160.png
 ```
 
@@ -150,6 +159,7 @@ output/
 |------------|-------------|-------|
 | **1920x1080** | Full HD | Most common desktop resolution |
 | **2560x1440** | 2K | High-resolution displays with 1.33x scaling |
+| **3440x1440** | Ultrawide | 21:9 displays, grid reflows to more columns |
 | **3840x2160** | 4K | Ultra-high-resolution displays with 2x scaling |
 
 ## 🏗️ Project Structure
@@ -157,7 +167,8 @@ output/
 ```
 src/
 ├── templates/
-│   └── template.html          # Reusable HTML template with resolution scaling
+│   ├── template.html          # Terminal theme (green on black)
+│   └── template-card.html     # Card theme (navy/cyan dashboard poster)
 ├── data/
 │   ├── git.json               # Git commands data
 │   ├── docker.json            # Docker commands data
@@ -219,7 +230,25 @@ The web server provides the following REST API endpoints:
 }
 ```
 
-3. **The tool will automatically detect** the new CLI and make it available
+3. **Pick a theme** (optional). `theme` defaults to `terminal` — the green-on-black layout. Set it
+   to `card` for the dense navy/cyan dashboard poster used by the Salesforce wallpaper, which also
+   renders `subtitle` and `footerTips`:
+
+```json
+{
+  "title": "AWS CLI",
+  "subtitle": "Quick reference · v2 | docs.aws.amazon.com/cli",
+  "theme": "card",
+  "footerTips": ["Use --help after any command", "--output json for scripting"],
+  "sections": []
+}
+```
+
+   The card theme fills the viewport exactly, so generation **fails** with an overflow error if the
+   cards do not fit. Trim commands per card (6-9 is a good ceiling) or adjust the per-resolution
+   `--s` scale in `src/templates/template-card.html`.
+
+4. **The tool will automatically detect** the new CLI and make it available
 
 ## 📦 Dependencies
 

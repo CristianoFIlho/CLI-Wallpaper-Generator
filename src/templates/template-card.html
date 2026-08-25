@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{TITLE}} — Cheat Sheet</title>
+    <style>
+        /*
+         * Card theme: dense information-dashboard poster.
+         * Closed palette — navy ground, cyan accents, off-white title, slate/gray body.
+         * Everything scales from --s so each resolution is the same composition, resized.
+         */
+        :root {
+            --bg: #0B1220;
+            --panel: #101A2E;
+            --border: #1E2A44;
+            --accent: #29B6F6;
+            --cmd: #4FC3F7;
+            --title: #F5F7FA;
+            --muted: #8B9AB3;
+            --body: #C9D3E0;
+
+            --s: 1;
+            --cols: 5;
+
+            --mono: ui-monospace, 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Menlo',
+                'DejaVu Sans Mono', Consolas, monospace;
+            --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue',
+                'DejaVu Sans', Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--body);
+            font-family: var(--sans);
+            padding: calc(22px * var(--s));
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ---- header ---- */
+
+        .header {
+            text-align: center;
+            flex: none;
+            margin-bottom: calc(14px * var(--s));
+        }
+
+        .header h1 {
+            font-size: calc(28px * var(--s));
+            font-weight: 700;
+            color: var(--title);
+            letter-spacing: calc(0.2px * var(--s));
+            line-height: 1.15;
+        }
+
+        .header .subtitle {
+            font-size: calc(13px * var(--s));
+            color: var(--muted);
+            font-weight: 400;
+            margin-top: calc(5px * var(--s));
+        }
+
+        /* ---- masonry-ish card grid ---- */
+
+        .cards {
+            flex: 1 1 auto;
+            min-height: 0;
+            column-count: var(--cols);
+            column-gap: calc(10px * var(--s));
+        }
+
+        .card {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            margin-bottom: calc(8px * var(--s));
+        }
+
+        .card-header {
+            background-color: var(--accent);
+            color: var(--bg);
+            font-family: var(--sans);
+            font-size: calc(11px * var(--s));
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: calc(0.6px * var(--s));
+            text-align: center;
+            padding: calc(3px * var(--s)) calc(6px * var(--s));
+            border-radius: calc(4px * var(--s));
+            line-height: 1.35;
+        }
+
+        .card-body {
+            background-color: var(--panel);
+            border: calc(1px * var(--s)) solid var(--border);
+            border-radius: calc(4px * var(--s));
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            padding: calc(6px * var(--s)) calc(8px * var(--s)) calc(4px * var(--s));
+        }
+
+        .command {
+            margin-bottom: calc(4px * var(--s));
+        }
+
+        .command:last-child {
+            margin-bottom: 0;
+        }
+
+        .command-name {
+            font-family: var(--mono);
+            font-size: calc(12px * var(--s));
+            color: var(--cmd);
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .command-desc {
+            font-family: var(--sans);
+            font-size: calc(10.4px * var(--s));
+            color: var(--body);
+            line-height: 1.2;
+            margin-top: calc(2px * var(--s));
+        }
+
+        /* ---- footer ---- */
+
+        .footer {
+            flex: none;
+            margin-top: calc(10px * var(--s));
+            padding-top: calc(8px * var(--s));
+            border-top: calc(1px * var(--s)) solid var(--border);
+            text-align: center;
+            font-family: var(--sans);
+            font-size: calc(10px * var(--s));
+            color: var(--muted);
+        }
+
+        .footer .footer-label {
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: calc(0.6px * var(--s));
+            margin-right: calc(8px * var(--s));
+        }
+
+        /* ---- per-resolution scale + column count ---- */
+
+        body[data-resolution="1920x1080"] {
+            --s: 1;
+            --cols: 5;
+        }
+
+        body[data-resolution="2560x1440"] {
+            --s: 1.333;
+            --cols: 5;
+        }
+
+        body[data-resolution="3440x1440"] {
+            --s: 1.45;
+            --cols: 6;
+        }
+
+        body[data-resolution="3840x2160"] {
+            --s: 2;
+            --cols: 5;
+        }
+    </style>
+</head>
+
+<body data-resolution="{{RESOLUTION}}">
+    <div class="header">
+        <h1>{{TITLE}}</h1>
+        <div class="subtitle">{{SUBTITLE}}</div>
+    </div>
+
+    <div class="cards">
+        {{SECTIONS}}
+    </div>
+
+    <div class="footer">
+        <span class="footer-label">Dicas rápidas</span>{{FOOTER}}
+    </div>
+</body>
+
+</html>

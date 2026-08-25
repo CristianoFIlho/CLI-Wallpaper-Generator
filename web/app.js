@@ -285,7 +285,7 @@ function getCLIDescription(cli) {
         'docker': 'Container management',
         'kubernetes': 'Container orchestration',
         'npm': 'Package management',
-        'salesforce': 'SF CLI commands'
+        'salesforce': 'sf CLI — referência de comandos'
     };
     
     return descriptions[cli] || 'CLI commands';
